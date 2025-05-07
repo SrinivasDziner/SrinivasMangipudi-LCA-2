@@ -1,0 +1,149 @@
+<!-- UX Project Showcase Section -->
+ <html>
+<section class="project-showcase">
+  <h2 class="section-title">Leave a review!</h2>
+  <p class="section-subtitle">Help us improve your experience by telling us how you feel!</p>
+
+  <div class="project-box">
+    <h3 class="project-heading">Write a feedback</h3>
+    <p class="project-desc">Feel free to share your experience, suggest improvements and even give us recommendations!</p>
+    <input type="text" id="feedbackInput" placeholder="Type your feedback here...">
+    <button id="submitFeedback">Submit Feedback</button>
+    <button id="showInfo">Show Info</button>
+    <div id="feedbackList"></div>
+  </div>
+</section>
+
+<style>
+  .project-showcase {
+    padding: 48px 32px;
+    background-color: #fff;
+    font-family: 'Poppins', sans-serif;
+    color: #3e3e3e;
+  }
+
+  .section-title {
+    font-size: 28px;
+    font-weight: 600;
+    border-left: 4px solid #5e452e;
+    padding-left: 12px;
+    margin-bottom: 8px;
+  }
+
+  .section-subtitle {
+    font-size: 14px;
+    color: #888;
+    margin-bottom: 32px;
+  }
+
+  .project-box {
+    background-color: #f7f7f7;
+    border-radius: 16px;
+    padding: 32px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    max-width: 800px;
+  }
+
+  .project-heading {
+    font-size: 20px;
+    margin-bottom: 12px;
+  }
+
+  .project-desc {
+    font-size: 14px;
+    margin-bottom: 20px;
+  }
+
+  #feedbackInput {
+    padding: 12px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    width: 70%;
+    margin-bottom: 16px;
+    display: block;
+  }
+
+  #submitFeedback, #showInfo {
+    background-color: #5e452e;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 8px;
+    cursor: pointer;
+    margin-right: 8px;
+    transition: background-color 0.3s;
+  }
+
+  #submitFeedback:hover, #showInfo:hover {
+    background-color: #3e2f1e;
+  }
+
+  #feedbackList .note {
+    background-color: #fff;
+    border-left: 4px solid #5e452e;
+    padding: 10px;
+    margin-top: 8px;
+    border-radius: 8px;
+  }
+
+  .highlight {
+    background-color: #ffe9cc;
+  }
+</style>
+
+<script>
+  // Custom function with callback
+  function showMessage(message, callback) {
+    alert(message);
+    if (callback) callback(); //will execute callback if provided; 'message' that will be shown in an alert box. 'callback' is a function that will be executed after the alert box is closed.
+
+
+  }
+
+  const submitBtn = document.getElementById('submitFeedback'); //DOM traversal method used getElementbyId
+  const inputBox = document.getElementById('feedbackInput');   //DOM traversal method used getElementbyId
+  const feedbackList = document.getElementById('feedbackList'); //DOM traversal method used querySelector
+  const showInfoBtn = document.getElementById('showInfo');
+
+  // Mouse event: click
+  submitBtn.addEventListener('click', function () { //feedback is added on clicking submit
+    const text = inputBox.value.trim();
+    if (text !== '') {
+      const note = document.createElement('div'); //Create a new DOM element on clicking submit; new element gets 'note' class, text content set to input value box; added to the DOM by appending it as a child to the feedbacklist element.
+      note.classList.add('note'); //style change by changing class list-- color change in show info
+      note.textContent = text;
+      feedbackList.appendChild(note); 
+      inputBox.value = '';
+    }
+  });
+
+  // Mouseover and mouseout events
+  showInfoBtn.addEventListener('mouseover', function () { //mouseover-changes text on hover
+    showInfoBtn.textContent = 'Click to get Info';
+  });
+  showInfoBtn.addEventListener('mouseout', function () { //changes the button state to default once the cursor leaves
+    showInfoBtn.textContent = 'Show Info';
+  });
+
+  // Keyboard event
+  inputBox.addEventListener('keydown', function (e) {
+    if (e.key === 'Enter') { //takes feedback after pressing enter
+      submitBtn.click();
+    }
+  });
+
+  // DOM Navigation and Styling
+  showInfoBtn.addEventListener('click', function () { 
+    const allNotes = document.querySelectorAll('.note');
+    allNotes.forEach(note => {
+      if (note.parentElement === feedbackList) { //new feedback note will appear in the container each time i submit feedback (DOM Navigration)
+        note.classList.toggle('highlight');
+      }
+    });
+
+    showMessage("Highlighted all feedback notes", function () {
+      console.log("Callback after showing message"); 
+    });
+  });
+  </script>
+</html>
